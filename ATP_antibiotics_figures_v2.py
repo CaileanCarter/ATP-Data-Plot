@@ -1,6 +1,7 @@
-import matplotlib.pyplot as plt
-import matplotlib.gridspec as gridspec
 from math import floor
+
+import matplotlib.gridspec as gridspec
+import matplotlib.pyplot as plt
 
 ATPdata = {
 
@@ -130,14 +131,14 @@ ATPdata = {
                                 "4 xMIC" : [62.4, 51.4, 44]}}                
     }
 
-
 Antibiotic_ATP_CFU = []
 Antibiotic_ATP = []
 
 def TidyData():
 
-    for antibiotic in ATPdata.keys():
+    """Changes units into sensible scientific notation instead of values given in thousands"""
 
+    for antibiotic in ATPdata.keys():
         DataPool = []
 
         for conc in ATPdata[antibiotic]["ATP"]:
@@ -145,67 +146,53 @@ def TidyData():
                 DataPool.append(value)
 
         if all(value > 1000 for value in DataPool):
-
             Decimals = 1
-
             while not all(value / (10 ** Decimals) < 10 for value in DataPool):
                 Decimals += 1    
 
-            # print(Decimals)   
-
             for conc in ATPdata[antibiotic]["ATP"]:
                 for n, value in enumerate(ATPdata[antibiotic]["ATP"][conc]):
-
                     ATPdata[antibiotic]["ATP"][conc][n-1] = value / (10**Decimals)
                     ATPdata[antibiotic]["CFU/mL"][conc][n-1] = ATPdata[antibiotic]["CFU/mL"][conc][n-1] / (10**Decimals)
 
             if antibiotic == "Doxycycline":
                 ATPdata[antibiotic]["Details"][1].replace("14", str(14 + Decimals))
-
             else:
                 ATPdata[antibiotic]["Details"][1] = r"($x10^{-" + str(Decimals) + "}$ " + ATPdata[antibiotic]["Details"][1][1:]
-                # print(ATPdata[antibiotic]["Details"][1])
+
 
 def SortAntibioticNames(): #filter antibiotics into lists of either those with both ATP and CFU data and just those with ATP data
     for antibiotic in ATPdata.keys():
         if "ATP" and "CFU/mL" in ATPdata[antibiotic]:
             Antibiotic_ATP_CFU.append(antibiotic)
-        
         elif "ATP" in ATPdata[antibiotic]:
             Antibiotic_ATP.append(antibiotic)
-
         else:
             print("Error: {antibiotic} not allocated a list" % antibiotic)
 
     Antibiotic_ATP_CFU.sort(), Antibiotic_ATP.sort()
 
+
 def Get_ATP_per_CFU_data():
-
     for antibiotic in Antibiotic_ATP_CFU:
-    
         ATP_per_CFU = {}
-
         for conc in ATPdata[antibiotic]["ATP"].keys():
-
             ATP_per_CFU[conc] = []
-
             for ATP_data, CFU_data in zip(ATPdata[antibiotic]["ATP"][conc], ATPdata[antibiotic]["CFU/mL"][conc]):
-
                 ATP_per_CFU[conc].append(round(ATP_data / CFU_data, 3) if CFU_data != 0 else 0)
-
         ATPdata[antibiotic].update({"ATP_per_CFU" : ATP_per_CFU})
+
 
 def Time(antibiotic): #because units of time for each antibiotic data is different, this function returns the time with units
     for key in ATPdata[antibiotic].keys():
             if key.startswith("Time"):
                     return key 
 
-def DefineHeading(antibiotic):
-    return antibiotic + " against " + ATPdata[antibiotic]["Details"][2]
+
+def DefineHeading(antibiotic): return antibiotic + " against " + ATPdata[antibiotic]["Details"][2]
+
 
 def Plot_ATP_CFU_Data():
-    
-    #plotting
     fig1 = plt.figure(constrained_layout=True)
 
     widths = [2, 2]
@@ -223,7 +210,6 @@ def Plot_ATP_CFU_Data():
             abx = Antibiotic_ATP_CFU[floor(counter / 2)]
             time_unit = Time(abx)
             
-
             if counter == 0 or counter % 2 == 0: #count determines which data its plotting
                 #Plotting ATP per CFU/mL data which is above its respective ATP plot
                 ax.set_title(DefineHeading(abx))
@@ -233,7 +219,6 @@ def Plot_ATP_CFU_Data():
                 for conc in ATPdata[abx]["ATP"].keys():
                     ax.plot(ATPdata[abx][time_unit], ATPdata[abx]['ATP_per_CFU'][conc], 'o-')
 
-                
             else:
                 #plotting ATP data under ATP per CFU/mL data
                 ax.set_xlabel(time_unit, fontsize=10)
@@ -246,9 +231,9 @@ def Plot_ATP_CFU_Data():
             
             counter += 1
            
+
 def Plot_ATP_data(): #plots ATP data singularly which do not have CFU data
     _, ax = plt.subplots(nrows=3, ncols=2, constrained_layout=True)
-
     counter = 0
 
     for axi in ax:
@@ -269,14 +254,10 @@ def Plot_ATP_data(): #plots ATP data singularly which do not have CFU data
 
             counter += 1
             
+
 if __name__ == "__main__":
-
     TidyData()
-
     SortAntibioticNames()
-
     Get_ATP_per_CFU_data()
-
     Plot_ATP_CFU_Data(), Plot_ATP_data()
-
     plt.show()
