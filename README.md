@@ -1,11 +1,15 @@
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/CaileanCarter/ATP-Data-Plot)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/CaileanCarter/ATP-Data-Plot.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/CaileanCarter/ATP-Data-Plot/alerts/)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/CaileanCarter/ATP-Data-Plot.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/CaileanCarter/ATP-Data-Plot/context:python)
 
+
 # ATP Data Plot
+
+Plots ATP over time for various concentrations from literature sources.
 
 Working progress...
 
-Use version 2 for latest build
+Use version 2.1 for latest build.
 
 
 ## Citations
