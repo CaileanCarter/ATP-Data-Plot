@@ -1,6 +1,6 @@
 from math import floor
 
-import matplotlib.gridspec as gridspec
+import matplotlib.gridspec as gridspec #lgtm [py/unused-import]
 import matplotlib.pyplot as plt
 
 ATPdata = {

@@ -1,4 +1,4 @@
-import plotly.graph_objects as go 
+import plotly.graph_objects as go #lgtm [py/unused-import]
 from plotly.subplots import make_subplots
 import json
 from itertools import chain
@@ -13,8 +13,8 @@ def plot_data():
         print(f"Could not find {ex.strerror}, please run ATP_antibiotics_figures_v3.py")
 
     #assign to groups
-    with_cfu = [key for key, values in data.items() if 'ATP_per_CFU' in values.keys()]
-    without_cfu = [key for key, values in data.items() if 'ATP_per_CFU' not in values.keys()]
+    with_cfu = [key for key, values in data.items() if 'ATP_per_CFU' in values.keys()] #lgtm [py/unused-local-variable]
+    without_cfu = [key for key, values in data.items() if 'ATP_per_CFU' not in values.keys()] #lgtm [py/unused-local-variable]
 
     # (row, column)
     fig_subplots_specs = {
@@ -32,7 +32,7 @@ def plot_data():
         11 : (15, 2),
         12 : (17, 1),
         13 : (17, 2)
-    }
+    } #lgtm [py/unused-local-variable]
 
 
     fig = make_subplots(
