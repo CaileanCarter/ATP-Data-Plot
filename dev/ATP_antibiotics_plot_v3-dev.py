@@ -1,7 +1,7 @@
 import plotly.graph_objects as go #lgtm [py/unused-import]
 from plotly.subplots import make_subplots
 import json
-from itertools import chain
+from itertools import chain#lgtm [py/unused-import]
 
 
 def plot_data():
@@ -17,7 +17,7 @@ def plot_data():
     without_cfu = [key for key, values in data.items() if 'ATP_per_CFU' not in values.keys()] #lgtm [py/unused-local-variable]
 
     # (row, column)
-    fig_subplots_specs = {
+    fig_subplots_specs = { #lgtm [py/unused-local-variable]
         0 : ((1,1), (2, 1)),
         1 : ((1,2), (2,2)),
         2 : ((4,1), (5,1)),
@@ -32,7 +32,7 @@ def plot_data():
         11 : (15, 2),
         12 : (17, 1),
         13 : (17, 2)
-    } #lgtm [py/unused-local-variable]
+    } 
 
 
     fig = make_subplots(
